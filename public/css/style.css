@@ -1,0 +1,39 @@
+
+body {
+  background:#fff;
+  color: black; 
+  line-height: 1.5;
+  font-size: 18px;
+  text-align: center;
+}
+
+img {
+  text-align: center;
+  width: auto;
+  height: 200px;
+}
+
+.btn {
+    width: 300px;
+    margin: 50px auto 0;
+    text-align: center;
+    border: 2px solid #868585;
+    padding: 30px 0;
+    background: #fff;
+    color: #000;
+    transition: background .4s,color .4s,font-size .4s;
+    font-size: 20px;
+    display: block;
+    letter-spacing: 1px;
+  }
+
+  .container {
+    display: flex;
+    padding: 3rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .item {
+    margin:40px;
+  }
