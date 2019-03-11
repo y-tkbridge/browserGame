@@ -1,5 +1,5 @@
 <?php
-
+require_once('User.php');
 class Enemy extends GamePlayer {
 
     private $name;
@@ -35,7 +35,7 @@ class Enemy extends GamePlayer {
         return $this->hp;
     }
 
-    public function _createEnemy($enemy_level){
+    public function createEnemy($enemy_level){
         if($enemy_level === 1){
             echo "level 1";
         }else if($enemy_level === 2){

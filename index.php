@@ -3,6 +3,8 @@ require_once('./modules/User.php');
 require_once('./modules/Enemy.php');
 session_start();
 
+var_dump($_SESSION['stage']);
+
 // プレイヤーの名前をセットする
 $name = $_POST['username'];
 

@@ -1,24 +1,21 @@
 <?php
 session_start();
-//var_dump($_SESSION);
+
 require_once('../modules/Action.php');
 
 
+//プレイヤーパラメータの取得
 $player = $_SESSION['player'];
 $enemy = $_SESSION['enemy'];
 
-// プレイヤーのパラメーターを変数にセットする
-$playerName = $player['name'];
-$playerHp = $player['hp'];
-$playerLevel = $player['level'];
-
-// 対戦相手のパラメータをセットする
-$enemyName = $player['name'];
-$enemyHp = $player['hp'];
-$enemyLevel = $player['level'];
+$enemyHp = $_SESSION['enemy']['hp'];
 
 // プレイヤーの技を取得する
 $action = new Action();
+
+//プレイヤーが選択攻撃手段を取得する
+var_dump($_SESSION);
+
 
 ?>
 
@@ -34,18 +31,19 @@ $action = new Action();
 </head>
 <body>
 <h1>げーむ！</h1>
+<form method="post" action="#">
 <div class="container">
     <div id="player" class="item">
         <img id="player_img" src='../images/player.png'>
-        <p>名前 <?= $playerName; ?>
-        <p>レベル<?= $playerLevel;?></p>
-        <p>HP<?= $playerHp?></p>
+        <p>名前 <?= $player['name']; ?>
+        <p>レベル<?= $player['level'];?></p>
+        <p>HP<?= $player['hp']?></p>
     
 
     <div class="item" id="">
-        <?php foreach($action->getActions($playerLevel) as $key => $value){ ?>
+        <?php foreach($action->getActions($player['level']) as $key => $value){ ?>
         <ul>
-            <input type="radio" name="action" value="<?php $value?>"><?= $key ?>
+            <input type="radio" name="action" value="<?= $value?>"><?= $key ?>
         </ul>
         <?php } ?>
 
@@ -53,15 +51,41 @@ $action = new Action();
     </div>
     <div id='enemy' class="item">
         <img id="enemy_img" src='../images/ドラキーあ.png'>
-        <p>名前 <?= $enemyName; ?>
-        <p>レベル<?= $enemyLevel;?></p>
+        <p>名前 <?= $enemy['name']; ?>
+        <p>レベル<?= $enemy['level']?></p>
         <p>HP<?= $enemyHp;?></p>
+        <input type="hidden" name="enemyHp" value="<?=$enemy['hp'];?>">
+        
 
     </div>
 </div>
-<form method="post" action="./battle.php">
-    <input type="submit" id="fight_btn" class="btn" value="ゲームスタート!!"> 
+
+    <input type="submit" id="fight_btn" class="btn" value="戦う">
 </form>
+
+
+<?php 
+if(!empty($_POST['action'])){
+    $_SESSION['enemy']['hp'] = $enemyHp - $_POST['action'];
+
+}
+
+if($_SESSION['enemy']['hp'] === 0){
+    $stageCount ++;
+    $_SESSION['stage'] = $stageCount;
+    header('Location: ../index.php');
+}
+
+// if($enemy['hp'] === 0){
+//     $stageCount ++;
+//     $_SESSION['stage'] = $stageCount;
+//     session_destroy();
+//     header('Location:../index.php');
+   
+
+// }
+
+?>
 
 
 <!-- googleがホストしている jQyery を読み込む -->
