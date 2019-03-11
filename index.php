@@ -7,6 +7,7 @@ session_start();
 $name = $_POST['username'];
 
 
+
 //プレイヤーとテキのインスタンスを作成する
 $player = new GamePlayer();
 $enemy = new Enemy();
@@ -25,6 +26,7 @@ $_SESSION['enemy'] = array(
     "hp" => $enemy->getHp()
 
 );
+
 
 ?>
 

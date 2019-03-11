@@ -1,7 +1,7 @@
 <?php
 session_start();
 //var_dump($_SESSION);
-require_once('./modules/Action.php');
+require_once('../modules/Action.php');
 
 
 $player = $_SESSION['player'];
@@ -14,8 +14,8 @@ $playerLevel = $player['level'];
 
 // 対戦相手のパラメータをセットする
 $enemyName = $player['name'];
-$playerHp = $player['hp'];
-$playerLevel = $player['level'];
+$enemyHp = $player['hp'];
+$enemyLevel = $player['level'];
 
 // プレイヤーの技を取得する
 $action = new Action();
@@ -36,21 +36,26 @@ $action = new Action();
 <h1>げーむ！</h1>
 <div class="container">
     <div id="player" class="item">
-        <img id="player_img" src='./images/player.png'>
+        <img id="player_img" src='../images/player.png'>
         <p>名前 <?= $playerName; ?>
         <p>レベル<?= $playerLevel;?></p>
         <p>HP<?= $playerHp?></p>
-    </div>
+    
 
     <div class="item" id="">
-        <?= $action->getActions($playerLevel); ?>
-    </div>
+        <?php foreach($action->getActions($playerLevel) as $key => $value){ ?>
+        <ul>
+            <input type="radio" name="action" value="<?php $value?>"><?= $key ?>
+        </ul>
+        <?php } ?>
 
+    </div>
+    </div>
     <div id='enemy' class="item">
-        <img id="enemy_img" src='./images/ドラキーあ.png'>
-        <p>名前 <?= $enemy->getName(); ?>
-        <p>レベル<?= $enemy->getLevel();?></p>
-        <p>HP<?= $enemy->getHp();?></p>
+        <img id="enemy_img" src='../images/ドラキーあ.png'>
+        <p>名前 <?= $enemyName; ?>
+        <p>レベル<?= $enemyLevel;?></p>
+        <p>HP<?= $enemyHp;?></p>
 
     </div>
 </div>
