@@ -4,8 +4,6 @@ session_start();
 require_once('../modules/Action.php');
 require_once('../modules/Stage.php');
 
-
-
 //プレイヤーパラメータの取得
 $player = $_SESSION['player'];
 $enemy = $_SESSION['enemy'];
@@ -81,7 +79,7 @@ var_dump($_SESSION);
 if($_SESSION['enemy']['hp'] <= 0){
     $_SESSION['stage'] ++;
     header('Location: ../index.php');
-}else if ($_SESSION['stage'] >= 3){
+}else if ($_SESSION['stage'] > 3){
     $_SESSION['stage'] =1;
 
 }
