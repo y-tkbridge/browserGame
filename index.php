@@ -1,6 +1,7 @@
 <?php
 require_once('./modules/User.php');
 require_once('./modules/Enemy.php');
+require_once('./modules/Stage.php');
 session_start();
 
 var_dump($_SESSION['stage']);
@@ -8,7 +9,8 @@ var_dump($_SESSION['stage']);
 // プレイヤーの名前をセットする
 $name = $_POST['username'];
 
-
+//敵を所得する
+$enemyImg = new Stage();
 
 //プレイヤーとテキのインスタンスを作成する
 $player = new GamePlayer();
@@ -29,6 +31,8 @@ $_SESSION['enemy'] = array(
 
 );
 
+$stageEnemy = $enemyImg->getEnemyImg(1);
+echo $stageEnemy;
 
 ?>
 
@@ -46,7 +50,7 @@ $_SESSION['enemy'] = array(
     <h1>げーむ！</h1>
     <div class="container">
         <div id="player" class="item">
-            <img id="player_img" src='./images/player.png'>
+            <img id="player_img" src="./images/player.png">
             <p>名前 <?= $player->getName(); ?>
             <p>レベル<?= $player->getLevel();?></p>
             <p>HP<?= $player->getHp();?></p>
@@ -56,7 +60,7 @@ $_SESSION['enemy'] = array(
         </div>
 
         <div id='enemy' class="item">
-            <img id="enemy_img" src='./images/ドラキーあ.png'>
+            <img id="enemy_img" src="<?='./images/'.$enemyImg->getEnemyImg($_SESSION['stage']);?>">
             <p>名前 <?= $enemy->getName(); ?>
             <p>レベル<?= $enemy->getLevel();?></p>
             <p>HP<?= $enemy->getHp();?></p>

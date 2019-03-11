@@ -2,6 +2,8 @@
 session_start();
 
 require_once('../modules/Action.php');
+require_once('../modules/Stage.php');
+
 
 
 //プレイヤーパラメータの取得
@@ -9,9 +11,17 @@ $player = $_SESSION['player'];
 $enemy = $_SESSION['enemy'];
 
 $enemyHp = $_SESSION['enemy']['hp'];
+if(!empty($_POST['action'])){
+    $_SESSION['enemy']['hp'] = $enemyHp - $_POST['action'];
+
+}
+
 
 // プレイヤーの技を取得する
 $action = new Action();
+
+//敵の画像を取得
+$enemyImg = new Stage();
 
 //プレイヤーが選択攻撃手段を取得する
 var_dump($_SESSION);
@@ -31,60 +41,50 @@ var_dump($_SESSION);
 </head>
 <body>
 <h1>げーむ！</h1>
-<form method="post" action="#">
+
 <div class="container">
     <div id="player" class="item">
         <img id="player_img" src='../images/player.png'>
         <p>名前 <?= $player['name']; ?>
         <p>レベル<?= $player['level'];?></p>
         <p>HP<?= $player['hp']?></p>
-    
-
-    <div class="item" id="">
-        <?php foreach($action->getActions($player['level']) as $key => $value){ ?>
-        <ul>
-            <input type="radio" name="action" value="<?= $value?>"><?= $key ?>
-        </ul>
-        <?php } ?>
-
     </div>
-    </div>
-    <div id='enemy' class="item">
-        <img id="enemy_img" src='../images/ドラキーあ.png'>
-        <p>名前 <?= $enemy['name']; ?>
-        <p>レベル<?= $enemy['level']?></p>
-        <p>HP<?= $enemyHp;?></p>
-        <input type="hidden" name="enemyHp" value="<?=$enemy['hp'];?>">
+
+    <form method="post" action="#">
+        <div class="item" id="">
+            <?php foreach($action->getActions($player['level']) as $key => $value){ ?>
+            <ul>
+                <input type="radio" name="action" value="<?= $value?>"><?= $key ?>
+            </ul>
+            <?php } ?>
+
+        </div>
         
+        <div id='enemy' class="item">
+            <img id="enemy_img" src="<?='../images/'.$enemyImg->getEnemyImg($_SESSION['stage'])?>">
+            <p>名前 <?= $enemy['name']; ?>
+            <p>レベル<?= $enemy['level']?></p>
+            <p>HP<?= $_SESSION['enemy']['hp'];?></p>
+            <input type="hidden" name="enemyHp" value="<?=$enemy['hp'];?>">
+            <input type="submit" id="fight_btn" class="btn" value="戦う">
+        </div>
+    </form>
 
-    </div>
+
+    
 </div>
 
-    <input type="submit" id="fight_btn" class="btn" value="戦う">
-</form>
 
 
 <?php 
-if(!empty($_POST['action'])){
-    $_SESSION['enemy']['hp'] = $enemyHp - $_POST['action'];
 
-}
-
-if($_SESSION['enemy']['hp'] === 0){
-    $stageCount ++;
-    $_SESSION['stage'] = $stageCount;
+if($_SESSION['enemy']['hp'] <= 0){
+    $_SESSION['stage'] ++;
     header('Location: ../index.php');
+}else if ($_SESSION['stage'] >= 3){
+    $_SESSION['stage'] =1;
+
 }
-
-// if($enemy['hp'] === 0){
-//     $stageCount ++;
-//     $_SESSION['stage'] = $stageCount;
-//     session_destroy();
-//     header('Location:../index.php');
-   
-
-// }
-
 ?>
 
 
